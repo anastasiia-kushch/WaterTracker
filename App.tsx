@@ -1,44 +1,44 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { StyleSheet, View, Text } from 'react-native';
+import BasicButton from './components/BasicButton';
+import Icon from 'react-native-vector-icons/Feather';
+import Input from './components/Input';
+import ProgressCircle from './components/ProgressCircle';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
   return (
     <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
+      <BasicButton type="primary">
+        <Text>Login</Text>
+      </BasicButton>
+
+      <BasicButton type="secondary">
+        <Text>Login</Text>
+      </BasicButton>
+
+      <BasicButton type="add">
+        <Text>+100ml</Text>
+      </BasicButton>
+
+      <BasicButton type="addCustom">
+        <Icon name="plus" size={22} color="#FFFFFF" />
+      </BasicButton>
+
+      <Input placeholder="Email" />
+      <Input placeholder="Password" />
+
+      <ProgressCircle amount={2500} goal={3000} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+    marginTop: 150,
+    padding: 16,
   },
 });
 
