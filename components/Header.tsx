@@ -65,7 +65,7 @@ function Header({ type, day, isToday }: HeaderProps) {
           <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>History</Text>
-        <View style={{ width: 50 }} />
+        <View style={{ width: 20 }} />
       </View>
     );
   } else if (type === 'day') {
@@ -75,7 +75,7 @@ function Header({ type, day, isToday }: HeaderProps) {
           <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>{isToday ? 'Today' : formatDate(day)}</Text>
-        <View style={{ width: 50 }} />
+        <View style={{ width: 20 }} />
       </View>
     );
   } else if (type === 'settings') {
@@ -85,7 +85,7 @@ function Header({ type, day, isToday }: HeaderProps) {
           <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
-        <View style={{ width: 50 }} />
+        <View style={{ width: 20 }} />
       </View>
     );
   }
