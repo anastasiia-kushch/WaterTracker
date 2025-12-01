@@ -5,7 +5,7 @@ import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
 import { useEffect, useState } from 'react';
-import { fetchUser } from '../api';
+import { addLog, fetchUser } from '../api';
 
 function HomeScreen() {
   const [data, setData] = useState({ drunk: 0, goal: 3000 });
@@ -13,17 +13,21 @@ function HomeScreen() {
 
   useEffect(() => {
     async function load() {
-      try {
-        const userData = await fetchUser();
-        setData(userData);
-      } catch (error) {
-        console.error('Failed to load user data:', error);
-      } finally {
-        setLoading(false);
-      }
+      const userData = await fetchUser();
+      setData(userData);
+      setLoading(false);
     }
     load();
   }, []);
+
+  async function handleAdd(amount: number) {
+    try {
+      const updatedUser = await addLog(amount);
+      setData(updatedUser);
+    } catch (e) {
+      console.error('Failed to update:', e);
+    }
+  }
 
   if (loading) {
     return (
@@ -40,8 +44,12 @@ function HomeScreen() {
         <ProgressCircle amount={data.drunk} goal={data.goal} />
       </View>
       <View style={styles.buttonsContainer}>
-        <Button type="add">+100ml</Button>
-        <Button type="add">+200ml</Button>
+        <Button type="add" onPress={() => handleAdd(100)}>
+          +100ml
+        </Button>
+        <Button type="add" onPress={() => handleAdd(200)}>
+          +200ml
+        </Button>
       </View>
       <View style={styles.buttonContainer}>
         <Button type="addCustom">
