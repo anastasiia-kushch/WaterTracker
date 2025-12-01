@@ -85,7 +85,9 @@ function Header({ type, day, isToday }: HeaderProps) {
           <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
-        <View style={{ width: 20 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Icon name="log-out" size={24} color={Colors.darkest} />
+        </TouchableOpacity>
       </View>
     );
   }
