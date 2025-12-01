@@ -9,23 +9,27 @@ function LoginScreen() {
   return (
     <View style={styles.container}>
       <Header type="settings" />
-      <Text>Welcome to WaterTrack!</Text>
+      <Text style={styles.welcomeText}>Welcome to WaterTrack!</Text>
       <View>
-        <Input placeholder="Email" />
-        <Input placeholder="Password" />
-        <TouchableOpacity>Forgot password?</TouchableOpacity>
+        <View style={styles.inputsContainer}>
+          <Input placeholder="Email" />
+          <Input placeholder="Password" />
+        </View>
+        <TouchableOpacity>
+          <Text style={styles.reset}>Forgot password?</Text>
+        </TouchableOpacity>
         <Button type="primary">Login</Button>
-        <Text>
-          Not a member?
+        <View style={styles.registerContainer}>
+          <Text style={styles.text}>Not a member?</Text>
           <TouchableOpacity>
-            <Text>Register now</Text>
+            <Text style={styles.reset}>Register now</Text>
           </TouchableOpacity>
-        </Text>
+        </View>
         <View style={styles.separator} />
-        <Text>Or continue with</Text>
-        <Button type="addCustom">
+        <Text style={styles.text}>Or continue with</Text>
+        <TouchableOpacity style={styles.googleButton}>
           <Icon name="google" size={24} color="white" />
-        </Button>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -34,10 +38,52 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.white,
+    paddingHorizontal: 20,
+  },
+  welcomeText: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginTop: '40%',
+    marginBottom: 24,
+  },
+  inputsContainer: {
+    display: 'flex',
+    gap: 16,
+    marginBottom: 16,
+  },
+  reset: {
+    color: Colors.darkest,
+    marginBottom: 24,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  registerContainer: {
+    marginTop: 16,
+    marginBottom: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  text: {
+    fontSize: 16,
+    color: Colors.gray,
+    textAlign: 'center',
   },
   separator: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGray,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.darkGray,
+    marginBottom: 24,
+  },
+  googleButton: {
+    backgroundColor: Colors.red,
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 16,
   },
 });
 

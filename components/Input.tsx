@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
 
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: 16,
   },
   inputFocused: {
     borderColor: Colors.darkest,
