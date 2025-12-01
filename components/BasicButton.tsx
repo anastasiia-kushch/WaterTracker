@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Colors from '../styles/colors';
 import { ReactNode } from 'react';
 
@@ -6,15 +6,21 @@ type ButtonType = 'primary' | 'secondary' | 'add' | 'addCustom';
 
 type ButtonProps = {
   type?: ButtonType;
-  children: ReactNode;
+  content?: string;
+  children?: ReactNode;
 };
 
-function Button({ type = 'primary', children }: ButtonProps) {
+function Button({ type = 'primary', children, content }: ButtonProps) {
   return (
     <Pressable style={({ pressed }) => getButtonStyle({ type, pressed })}>
       {({ pressed }) => {
         if (type === 'addCustom' || type === 'add') {
-          return children;
+          // Apply text styles to children
+          return (
+            <Text style={getTextStyle({ type, pressed })}>
+              {typeof children === 'string' ? children : children}
+            </Text>
+          );
         }
         return <Text style={getTextStyle({ type, pressed })}>{children}</Text>;
       }}
@@ -132,7 +138,7 @@ const styles = StyleSheet.create({
 
   textPrimary: {
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: '600',
   },
 
@@ -141,7 +147,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '50%',
-    padding: 22,
     width: 65,
     height: 65,
   },
