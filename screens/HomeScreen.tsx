@@ -6,10 +6,12 @@ import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
 import { useEffect, useState } from 'react';
 import { addLog, fetchUser } from '../api';
+import AddCustomAmountModal from '../components/AddCustomAmountModal';
 
 function HomeScreen() {
   const [data, setData] = useState({ drunk: 0, goal: 3000 });
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -52,10 +54,15 @@ function HomeScreen() {
         </Button>
       </View>
       <View style={styles.buttonContainer}>
-        <Button type="addCustom">
+        <Button type="addCustom" onPress={() => setModalVisible(true)}>
           <Icon name="plus" size={28} color="white" />
         </Button>
       </View>
+      <AddCustomAmountModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onAdd={handleAdd}
+      />
     </View>
   );
 }
