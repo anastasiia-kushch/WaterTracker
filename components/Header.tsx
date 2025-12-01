@@ -30,13 +30,14 @@ function formatDate(dateString?: string): string {
 }
 
 type HeaderProps = {
-  type: 'main' | 'history' | 'day' | 'settings';
+  type: 'main' | 'history' | 'day' | 'settings' | 'signup';
   day?: string;
   isToday?: boolean;
 };
 
 function Header({ type, day, isToday }: HeaderProps) {
   const navigation = useNavigation<any>();
+
   if (type === 'main') {
     return (
       <View style={styles.header}>
@@ -88,6 +89,16 @@ function Header({ type, day, isToday }: HeaderProps) {
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Icon name="log-out" size={24} color={Colors.darkest} />
         </TouchableOpacity>
+      </View>
+    );
+  } else if (type === 'signup') {
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="chevron-left" size={28} color={Colors.darkest} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Sign Up</Text>
+        <View style={{ width: 20 }} />
       </View>
     );
   }

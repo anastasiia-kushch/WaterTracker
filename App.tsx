@@ -7,6 +7,7 @@ import HistoryScreen from './screens/HistoryScreen';
 import DayDetailsScreen from './screens/DayDetailsScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
 
 type RootStackParamList = {
   Home: undefined;
@@ -14,6 +15,7 @@ type RootStackParamList = {
   DayDetails: { date: string };
   Settings: undefined;
   Login: undefined;
+  Signup: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -27,6 +29,7 @@ export default function App() {
         <Stack.Screen name="DayDetails" component={DayDetailsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

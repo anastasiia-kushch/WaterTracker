@@ -4,9 +4,10 @@ import { useState } from 'react';
 
 type InputProps = {
   placeholder?: string;
+  secure?: boolean;
 };
 
-function Input({ placeholder }: InputProps) {
+function Input({ placeholder, secure = false }: InputProps) {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -16,6 +17,7 @@ function Input({ placeholder }: InputProps) {
       style={[styles.input, isFocused && styles.inputFocused]}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
+      secureTextEntry={secure}
     />
   );
 }
