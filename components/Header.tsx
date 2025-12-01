@@ -62,7 +62,7 @@ function Header({ type, day, isToday }: HeaderProps) {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color={Colors.darkest} />
+          <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>History</Text>
         <View style={{ width: 50 }} />
@@ -72,7 +72,7 @@ function Header({ type, day, isToday }: HeaderProps) {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color={Colors.darkest} />
+          <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>{isToday ? 'Today' : formatDate(day)}</Text>
         <View style={{ width: 50 }} />
@@ -82,7 +82,7 @@ function Header({ type, day, isToday }: HeaderProps) {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color={Colors.darkest} />
+          <Icon name="chevron-left" size={28} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
         <View style={{ width: 50 }} />

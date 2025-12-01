@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 function HomeScreen() {
   return (
-    <View>
+    <View style={styles.container}>
       <Header type="main" />
       <View style={styles.circle}>
         <ProgressCircle amount={1500} goal={3000} />
@@ -25,6 +25,10 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   circle: {
     marginTop: '40%',
     alignItems: 'center',

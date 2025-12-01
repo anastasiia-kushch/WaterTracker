@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../components/Header';
+import Colors from '../styles/colors';
 
 export default function SettingsScreen() {
   return (
@@ -10,7 +11,7 @@ export default function SettingsScreen() {
       <View style={styles.userSection}>
         <Text style={styles.userName}>Lucas Scott</Text>
         <View style={styles.editIcon}>
-          <Icon name="edit-3" size={12} color="white" />
+          <Icon name="edit-3" size={14} color={Colors.white} />
         </View>
         <Text style={styles.userHandle}>@lucasscott3</Text>
       </View>
@@ -36,7 +37,7 @@ function SettingItem({ title, isLast }: SettingItemProps) {
   return (
     <View style={[styles.item, !isLast && styles.itemBorder]}>
       <Text style={styles.itemText}>{title}</Text>
-      <Icon name="arrow-right" size={20} color="#888" />
+      <Icon name="chevron-right" size={24} color={Colors.gray} />
     </View>
   );
 }
@@ -46,56 +47,38 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-
-  // HEADER
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-    justifyContent: 'space-between',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#1A73E8',
-  },
-
-  // USER
   userSection: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: '20%',
     marginBottom: 30,
+    position: 'relative',
   },
   userName: {
     fontSize: 18,
     fontWeight: '700',
-    marginBottom: 4,
+    marginBottom: 2,
   },
   editIcon: {
-    position: 'absolute',
-    right: -25,
-    top: 0,
-    backgroundColor: '#1A73E8',
+    backgroundColor: Colors.darkest,
     width: 22,
     height: 22,
     borderRadius: 11,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
+    right: '30%',
+    top: '15%',
   },
   userHandle: {
     fontSize: 14,
-    color: '#777',
+    color: Colors.gray,
     marginTop: 4,
   },
-
-  // LIST
   list: {
     marginHorizontal: 20,
     borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   item: {
     flexDirection: 'row',
@@ -106,10 +89,10 @@ const styles = StyleSheet.create({
   },
   itemBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#e6e6e6',
+    borderBottomColor: Colors.lightGray,
   },
   itemText: {
     fontSize: 16,
-    color: '#222',
+    color: Colors.black,
   },
 });
