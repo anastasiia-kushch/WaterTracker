@@ -13,7 +13,7 @@ function Button({ type = 'primary', children }: ButtonProps) {
   return (
     <Pressable style={({ pressed }) => getButtonStyle({ type, pressed })}>
       {({ pressed }) => {
-        if (type === 'addCustom') {
+        if (type === 'addCustom' || type === 'add') {
           return children;
         }
         return <Text style={getTextStyle({ type, pressed })}>{children}</Text>;

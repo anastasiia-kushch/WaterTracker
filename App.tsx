@@ -1,45 +1,27 @@
-import { StyleSheet, View, Text } from 'react-native';
-import BasicButton from './components/BasicButton';
-import Icon from 'react-native-vector-icons/Feather';
-import Input from './components/Input';
-import ProgressCircle from './components/ProgressCircle';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-function App() {
+import HomeScreen from './screens/HomeScreen';
+import HistoryScreen from './screens/HistoryScreen';
+import DayDetailsScreen from './screens/DayDetailsScreen';
+
+type RootStackParamList = {
+  Home: undefined;
+  History: undefined;
+  DayDetails: { date: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+export default function App() {
   return (
-    <View style={styles.container}>
-      <BasicButton type="primary">
-        <Text>Login</Text>
-      </BasicButton>
-
-      <BasicButton type="secondary">
-        <Text>Login</Text>
-      </BasicButton>
-
-      <BasicButton type="add">
-        <Text>+100ml</Text>
-      </BasicButton>
-
-      <BasicButton type="addCustom">
-        <Icon name="plus" size={22} color="#FFFFFF" />
-      </BasicButton>
-
-      <Input placeholder="Email" />
-      <Input placeholder="Password" />
-
-      <ProgressCircle amount={2500} goal={3000} />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="History" component={HistoryScreen} />
+        <Stack.Screen name="DayDetails" component={DayDetailsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 16,
-    marginTop: 150,
-    padding: 16,
-  },
-});
-
-export default App;
