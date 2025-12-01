@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../components/Header';
 import Colors from '../styles/colors';
+import { fetchUser } from '../api';
 
 export default function SettingsScreen() {
+  const [data, setData] = useState({
+    userName: 'Loading...',
+    nickName: 'Loading...',
+  });
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const userData = await fetchUser();
+        setData(userData);
+      } catch (error) {
+        console.error('Failed to load user data:', error);
+      }
+    }
+    load();
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       <Header type="settings" />
       <View style={styles.userSection}>
-        <Text style={styles.userName}>Lucas Scott</Text>
+        <Text style={styles.userName}>{data.userName}</Text>
         <View style={styles.editIcon}>
           <Icon name="edit-3" size={14} color={Colors.white} />
         </View>
-        <Text style={styles.userHandle}>@lucasscott3</Text>
+        <Text style={styles.userHandle}>{data.nickName}</Text>
       </View>
 
       <View style={styles.list}>
