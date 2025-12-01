@@ -20,7 +20,6 @@ export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
 
   return (
     <View style={styles.container}>
-      {/* ВСТАВЛЯЕМ ЗАГОЛОВОК */}
       <Header type="day" day={date} isToday={isToday} />
 
       <FlatList

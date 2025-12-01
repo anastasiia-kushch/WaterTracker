@@ -6,7 +6,6 @@ import Colors from '../styles/colors';
 function formatDate(dateString?: string): string {
   const date = dateString ? new Date(dateString) : new Date();
 
-  // Чтобы работало одинаково на любых устройствах, форматируем вручную
   const day = String(date.getDate()).padStart(2, '0');
 
   const monthNames = [
@@ -23,7 +22,7 @@ function formatDate(dateString?: string): string {
     'Nov',
     'Dec',
   ];
-  const month = monthNames[date.getMonth()] ?? 'Jan';
+  const month = monthNames[date.getMonth()];
 
   const year = date.getFullYear();
 
@@ -54,37 +53,39 @@ function Header({ type, day, isToday }: HeaderProps) {
         >
           <Text style={styles.title}>Today</Text>
         </TouchableOpacity>
-        <View style={{ width: 50 }} /> {/* Placeholder for alignment */}
+        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+          <Icon name="settings" size={24} color={Colors.darkest} />
+        </TouchableOpacity>
       </View>
     );
   } else if (type === 'history') {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#1A73E8" />
+          <Icon name="arrow-left" size={24} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>History</Text>
-        <View style={{ width: 50 }} /> {/* Placeholder for alignment */}
+        <View style={{ width: 50 }} />
       </View>
     );
   } else if (type === 'day') {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#1A73E8" />
+          <Icon name="arrow-left" size={24} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>{isToday ? 'Today' : formatDate(day)}</Text>
-        <View style={{ width: 50 }} /> {/* Placeholder for alignment */}
+        <View style={{ width: 50 }} />
       </View>
     );
   } else if (type === 'settings') {
     return (
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={24} color="#1A73E8" />
+          <Icon name="arrow-left" size={24} color={Colors.darkest} />
         </TouchableOpacity>
         <Text style={styles.title}>Settings</Text>
-        <View style={{ width: 50 }} /> {/* Placeholder for alignment */}
+        <View style={{ width: 50 }} />
       </View>
     );
   }
@@ -97,13 +98,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     justifyContent: 'space-between',
-    marginTop: '20%',
+    marginTop: '18%',
     marginBottom: 20,
   },
   title: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#1A73E8',
+    color: Colors.darkest,
   },
 });
 
