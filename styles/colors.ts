@@ -8,6 +8,7 @@ const Colors = {
   lightGray: '#D4D6DD',
   white: '#FFFFFF',
   black: '#1F2024',
+  overlay: 'rgba(0, 0, 0, 0.5)',
   red: '#ED3241',
 };
 

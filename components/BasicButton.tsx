@@ -8,11 +8,15 @@ type ButtonProps = {
   type?: ButtonType;
   content?: string;
   children?: ReactNode;
+  onPress?: () => void;
 };
 
-function Button({ type = 'primary', children, content }: ButtonProps) {
+function Button({ type = 'primary', children, content, onPress }: ButtonProps) {
   return (
-    <Pressable style={({ pressed }) => getButtonStyle({ type, pressed })}>
+    <Pressable
+      style={({ pressed }) => getButtonStyle({ type, pressed })}
+      onPress={onPress}
+    >
       {({ pressed }) => {
         if (type === 'addCustom' || type === 'add') {
           // Apply text styles to children
@@ -40,8 +44,8 @@ function getButtonStyle({ type, pressed }: StyleArgs) {
     case 'primary':
       return [
         styles.basicButton,
-        styles.wideButton,
         {
+          paddingHorizontal: 40,
           backgroundColor: pressed ? Colors.medium : Colors.darkest,
         },
       ];
@@ -50,8 +54,8 @@ function getButtonStyle({ type, pressed }: StyleArgs) {
       return [
         styles.basicButton,
         styles.secondaryButton,
-        styles.wideButton,
         {
+          paddingHorizontal: 40,
           borderColor: pressed ? Colors.medium : Colors.darkest,
         },
       ];

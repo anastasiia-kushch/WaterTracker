@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
+import LogoutModal from './LogoutModal';
 
 function formatDate(dateString?: string): string {
   const date = dateString ? new Date(dateString) : new Date();
@@ -37,6 +39,7 @@ type HeaderProps = {
 
 function Header({ type, day, isToday }: HeaderProps) {
   const navigation = useNavigation<any>();
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   if (type === 'main') {
     return (
@@ -81,15 +84,20 @@ function Header({ type, day, isToday }: HeaderProps) {
     );
   } else if (type === 'settings') {
     return (
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={28} color={Colors.darkest} />
-        </TouchableOpacity>
-        <Text style={styles.title}>Settings</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Icon name="log-out" size={24} color={Colors.darkest} />
-        </TouchableOpacity>
-      </View>
+      <>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="chevron-left" size={28} color={Colors.darkest} />
+          </TouchableOpacity>
+          <Text style={styles.title}>Settings</Text>
+          <TouchableOpacity onPress={() => setShowLogoutModal(true)}>
+            <Icon name="log-out" size={24} color={Colors.darkest} />
+          </TouchableOpacity>
+        </View>
+        {showLogoutModal && (
+          <LogoutModal onClose={() => setShowLogoutModal(false)} />
+        )}
+      </>
     );
   } else if (type === 'signup') {
     return (
