@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import ProgressCircle from '../components/ProgressCircle';
 import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
+import Colors from '../styles/colors';
 
 function HomeScreen() {
   return (
@@ -27,7 +28,7 @@ function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   circle: {
     marginTop: '40%',

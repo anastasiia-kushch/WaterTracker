@@ -45,7 +45,7 @@ function SettingItem({ title, isLast }: SettingItemProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   userSection: {
     alignItems: 'center',

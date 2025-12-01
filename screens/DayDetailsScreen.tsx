@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Header from '../components/Header';
+import Colors from '../styles/colors';
 
 type DayDetailsScreenProps = {
   route: {
@@ -23,6 +24,7 @@ export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
       <Header type="day" day={date} isToday={isToday} />
 
       <FlatList
+        style={styles.list}
         data={data}
         keyExtractor={(item, idx) => idx.toString()}
         renderItem={({ item }) => (
@@ -38,8 +40,24 @@ export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', paddingTop: 60 },
-  row: { paddingVertical: 20, paddingHorizontal: 20 },
-  text: { fontSize: 16 },
-  separator: { height: 1, backgroundColor: '#eee', marginLeft: 20 },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+  },
+  list: {
+    flex: 1,
+    marginTop: '20%',
+  },
+  row: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  text: {
+    fontSize: 16,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#eee',
+    marginLeft: 20,
+  },
 });
