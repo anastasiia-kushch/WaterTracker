@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text } from 'react-native';
 import Colors from '../styles/colors';
 import { ReactNode } from 'react';
 
@@ -6,12 +6,11 @@ type ButtonType = 'primary' | 'secondary' | 'add' | 'addCustom';
 
 type ButtonProps = {
   type?: ButtonType;
-  content?: string;
   children?: ReactNode;
   onPress?: () => void;
 };
 
-function Button({ type = 'primary', children, content, onPress }: ButtonProps) {
+function Button({ type = 'primary', children, onPress }: ButtonProps) {
   return (
     <Pressable
       style={({ pressed }) => getButtonStyle({ type, pressed })}

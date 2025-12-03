@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Header from '../components/Header';
 import Colors from '../styles/colors';
+import { fetchUser } from '../api';
 
 type DayDetailsScreenProps = {
   route: {
@@ -11,30 +12,66 @@ type DayDetailsScreenProps = {
   };
 };
 
+type UserData = {
+  logs: {
+    [key: string]: number[];
+  };
+};
+
 export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
   const { date } = route.params;
+  const [logs, setLogs] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function load() {
+      try {
+        const userData = (await fetchUser()) as UserData;
+        const dayLogs = userData.logs?.[date] || [];
+        const formattedLogs = dayLogs.map(ml => `${ml}ml`);
+        setLogs(formattedLogs);
+      } catch (error) {
+        console.error('Failed to load user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [date]);
 
   const today = new Date().toISOString().split('T')[0];
   const isToday = date === today;
 
-  const data = ['100ml', '200ml', '150ml', '80ml', '200ml'];
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Header type="day" day={date} isToday={isToday} />
 
-      <FlatList
-        style={styles.list}
-        data={data}
-        keyExtractor={(item, idx) => idx.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.row}>
-            <Text style={styles.text}>{item}</Text>
-          </View>
-        )}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        contentContainerStyle={{ paddingTop: 20 }}
-      />
+      {logs.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No added progress</Text>
+        </View>
+      ) : (
+        <FlatList
+          style={styles.list}
+          data={logs}
+          keyExtractor={(item, idx) => idx.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.row}>
+              <Text style={styles.text}>{item}</Text>
+            </View>
+          )}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          contentContainerStyle={{ paddingTop: 20 }}
+        />
+      )}
     </View>
   );
 }
@@ -59,5 +96,14 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#eee',
     marginLeft: 20,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 18,
+    color: Colors.gray,
   },
 });
