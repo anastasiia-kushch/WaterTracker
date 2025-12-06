@@ -1,40 +1,32 @@
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Header from '../components/Header';
 import ProgressCircle from '../components/ProgressCircle';
 import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
-
-import { useState, useEffect, useRef } from 'react';
-import { LayoutAnimation, Platform, UIManager } from 'react-native';
 import AddCustomAmountModal from '../components/AddCustomAmountModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import { useUser } from '../hooks/useUser';
+
+const MemoProgressCircle = React.memo(ProgressCircle);
 
 function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const { user, isLoading, addLog } = useUser();
-  const prevDrunk = useRef(user.drunk);
+  const drunk = useSelector((state: RootState) => state.user.drunk);
+  const goal = useSelector((state: RootState) => state.user.goal);
+  const isLoading = useSelector(
+    (state: RootState) => state.user.status === 'loading',
+  );
+  const { addLog } = useUser();
 
-  // Enable LayoutAnimation on Android
-  useEffect(() => {
-    if (
-      Platform.OS === 'android' &&
-      UIManager.setLayoutAnimationEnabledExperimental
-    ) {
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user.drunk !== prevDrunk.current) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      prevDrunk.current = user.drunk;
-    }
-  }, [user.drunk]);
-
-  const handleAdd = async (amount: number) => {
-    await addLog(amount);
-  };
+  const handleAdd = useCallback(
+    async (amount: number) => {
+      await addLog(amount);
+    },
+    [addLog],
+  );
 
   if (isLoading) {
     return (
@@ -48,13 +40,13 @@ function HomeScreen() {
     <View style={styles.container}>
       <Header type="main" />
       <View style={styles.circle}>
-        <ProgressCircle amount={user.drunk} goal={user.goal} />
+        <MemoProgressCircle amount={drunk} goal={goal} />
       </View>
       <View style={styles.buttonsContainer}>
-        <Button type="add" onPress={async () => await handleAdd(100)}>
+        <Button type="add" onPress={() => handleAdd(100)}>
           +100ml
         </Button>
-        <Button type="add" onPress={async () => await handleAdd(200)}>
+        <Button type="add" onPress={() => handleAdd(200)}>
           +200ml
         </Button>
       </View>

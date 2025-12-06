@@ -11,15 +11,12 @@ function getFillPercentage(amount: number = 0, goal: number = 1): number {
   if (goal <= 0 || amount < 0) {
     return 0;
   }
-
   const pct = (amount / goal) * 100;
-
   return Math.min(Math.round(pct), 100);
 }
 
 function toLiters(value: number = 0): string {
   if (value < 0) return '0L';
-
   return (value / 1000).toFixed(value % 1000 === 0 ? 0 : 1) + 'L';
 }
 
@@ -33,6 +30,7 @@ function ProgressCircle({ amount, goal }: ProgressCircleProps) {
         tintColor={Colors.medium}
         backgroundColor={Colors.light}
         rotation={0}
+        duration={600}
       >
         {() => (
           <View style={styles.container}>
@@ -58,13 +56,13 @@ const styles = StyleSheet.create({
   amountText: {
     fontFamily: 'Inter',
     fontSize: 42,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.darkest,
   },
   percentageText: {
     fontFamily: 'Inter',
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.darkest,
   },
 });
