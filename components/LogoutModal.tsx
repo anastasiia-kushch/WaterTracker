@@ -1,10 +1,59 @@
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
 import Button from './BasicButton';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { useMemo } from 'react';
 
 function LogoutModal({ onClose }: { onClose: () => void }) {
   const navigation = useNavigation<any>();
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        overlay: {
+          flex: 1,
+          backgroundColor: Colors.overlay,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        modal: {
+          width: '80%',
+          backgroundColor: Colors.white,
+          borderRadius: 16,
+          padding: 24,
+          alignItems: 'center',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          elevation: 10,
+        },
+        title: {
+          fontSize: 16,
+          fontWeight: '700',
+          color: Colors.black,
+          marginBottom: 8,
+        },
+        message: {
+          fontSize: 14,
+          color: Colors.gray,
+          textAlign: 'center',
+          marginBottom: 28,
+        },
+        buttonsContainer: {
+          flexDirection: 'row',
+          justifyContent: 'center',
+          gap: 12,
+          width: '100%',
+        },
+      }),
+    [Colors],
+  );
+
   return (
     <Modal
       visible={true}
@@ -44,44 +93,5 @@ function LogoutModal({ onClose }: { onClose: () => void }) {
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: Colors.overlay,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modal: {
-    width: '80%',
-    backgroundColor: Colors.white,
-    borderRadius: 16,
-    padding: 24,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Colors.black,
-    marginBottom: 8,
-  },
-  message: {
-    fontSize: 14,
-    color: Colors.gray,
-    textAlign: 'center',
-    marginBottom: 28,
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 12,
-    width: '100%',
-  },
-});
 
 export default LogoutModal;

@@ -1,6 +1,9 @@
 import { Text, View, StyleSheet } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { useMemo } from 'react';
 
 type ProgressCircleProps = {
   amount?: number;
@@ -21,6 +24,35 @@ function toLiters(value: number = 0): string {
 }
 
 function ProgressCircle({ amount, goal }: ProgressCircleProps) {
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 16,
+        },
+        amountText: {
+          fontFamily: 'Inter',
+          fontSize: 42,
+          fontWeight: '600',
+          color: Colors.darkest,
+        },
+        percentageText: {
+          fontFamily: 'Inter',
+          fontSize: 16,
+          fontWeight: '600',
+          color: Colors.darkest,
+        },
+      }),
+    [Colors],
+  );
+
   return (
     <View>
       <AnimatedCircularProgress
@@ -44,27 +76,5 @@ function ProgressCircle({ amount, goal }: ProgressCircleProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 16,
-  },
-  amountText: {
-    fontFamily: 'Inter',
-    fontSize: 42,
-    fontWeight: '600',
-    color: Colors.darkest,
-  },
-  percentageText: {
-    fontFamily: 'Inter',
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.darkest,
-  },
-});
 
 export default ProgressCircle;

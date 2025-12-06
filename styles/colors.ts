@@ -1,15 +1,11 @@
-const Colors = {
-  darkest: '#0059CA',
-  dark: '#2897FF',
-  medium: '#6FB9FF',
-  light: '#EAF2FF',
-  darkGray: '#71727A',
-  gray: '#8F9098',
-  lightGray: '#D4D6DD',
-  white: '#FFFFFF',
-  black: '#1F2024',
-  overlay: 'rgba(0, 0, 0, 0.5)',
-  red: '#ED3241',
+import { lightColors, darkColors } from './colorsTheme';
+import { ThemeType } from '../store/themeSlice';
+
+export const getColors = (theme: ThemeType) => {
+  return theme === 'light' ? lightColors : darkColors;
 };
+
+// Default export для обратной совместимости
+const Colors = lightColors;
 
 export default Colors;

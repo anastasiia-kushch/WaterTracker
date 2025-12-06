@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Header from '../components/Header';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
 import { fetchUser } from '../api';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 type DayDetailsScreenProps = {
   route: {
@@ -22,6 +24,45 @@ export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
   const { date } = route.params;
   const [logs, setLogs] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: Colors.white,
+        },
+        list: {
+          flex: 1,
+          marginTop: '20%',
+        },
+        row: {
+          paddingVertical: 20,
+          paddingHorizontal: 20,
+        },
+        text: {
+          fontSize: 16,
+          color: Colors.black,
+        },
+        separator: {
+          height: 1,
+          backgroundColor: Colors.lightGray,
+          marginLeft: 20,
+        },
+        emptyContainer: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        emptyText: {
+          fontSize: 18,
+          color: Colors.gray,
+        },
+      }),
+    [Colors],
+  );
 
   useEffect(() => {
     async function load() {
@@ -75,35 +116,3 @@ export default function DayDetailsScreen({ route }: DayDetailsScreenProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  list: {
-    flex: 1,
-    marginTop: '20%',
-  },
-  row: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  text: {
-    fontSize: 16,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#eee',
-    marginLeft: 20,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: 18,
-    color: Colors.gray,
-  },
-});

@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Header from '../components/Header';
 import ProgressCircle from '../components/ProgressCircle';
 import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
 import AddCustomAmountModal from '../components/AddCustomAmountModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
@@ -19,7 +19,42 @@ function HomeScreen() {
   const isLoading = useSelector(
     (state: RootState) => state.user.status === 'loading',
   );
+  const theme = useSelector((state: RootState) => state.theme.theme);
   const { addLog } = useUser();
+
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        loading: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: Colors.white,
+        },
+        container: {
+          flex: 1,
+          backgroundColor: Colors.white,
+        },
+        circle: {
+          marginTop: '40%',
+          alignItems: 'center',
+        },
+        buttonsContainer: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          gap: 48,
+          marginTop: 90,
+        },
+        buttonContainer: {
+          marginTop: 40,
+          alignItems: 'center',
+        },
+      }),
+    [Colors],
+  );
 
   const handleAdd = useCallback(
     async (amount: number) => {
@@ -66,33 +101,5 @@ function HomeScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  circle: {
-    marginTop: '40%',
-    alignItems: 'center',
-  },
-  buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 48,
-    marginTop: 90,
-  },
-  buttonContainer: {
-    marginTop: 40,
-    alignItems: 'center',
-  },
-});
 
 export default HomeScreen;

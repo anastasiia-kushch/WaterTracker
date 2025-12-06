@@ -1,9 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
 import LogoutModal from './LogoutModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 function formatDate(dateString?: string): string {
   const date = dateString ? new Date(dateString) : new Date();
@@ -40,6 +42,29 @@ type HeaderProps = {
 function Header({ type, day, isToday }: HeaderProps) {
   const navigation = useNavigation<any>();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        header: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          justifyContent: 'space-between',
+          marginTop: '18%',
+          marginBottom: 20,
+        },
+        title: {
+          fontSize: 18,
+          fontWeight: '600',
+          color: Colors.darkest,
+        },
+      }),
+    [Colors],
+  );
 
   if (type === 'main') {
     return (
@@ -112,21 +137,5 @@ function Header({ type, day, isToday }: HeaderProps) {
   }
   return null;
 }
-
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    justifyContent: 'space-between',
-    marginTop: '18%',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.darkest,
-  },
-});
 
 export default Header;

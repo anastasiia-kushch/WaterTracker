@@ -1,15 +1,90 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../components/Header';
-import Colors from '../styles/colors';
+import { getColors } from '../styles/colors';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { toggleTheme } from '../store/themeSlice';
 import { fetchUser } from '../api';
+import Button from '../components/BasicButton';
 
 export default function SettingsScreen() {
   const [data, setData] = useState({
     userName: 'Loading...',
     nickName: 'Loading...',
   });
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const dispatch = useDispatch();
+
+  const Colors = useMemo(() => getColors(theme), [theme]);
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          flex: 1,
+          backgroundColor: Colors.white,
+        },
+        userSection: {
+          alignItems: 'center',
+          marginTop: '20%',
+          marginBottom: 30,
+          position: 'relative',
+        },
+        userName: {
+          fontSize: 18,
+          fontWeight: '700',
+          marginBottom: 2,
+          color: Colors.black,
+        },
+        editIcon: {
+          backgroundColor: Colors.darkest,
+          width: 22,
+          height: 22,
+          borderRadius: 11,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          right: '30%',
+          top: '15%',
+        },
+        userHandle: {
+          fontSize: 14,
+          color: Colors.gray,
+          marginTop: 4,
+        },
+        list: {
+          marginHorizontal: 20,
+          borderRadius: 12,
+          overflow: 'hidden',
+          backgroundColor: Colors.white,
+        },
+        item: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingVertical: 18,
+          paddingHorizontal: 10,
+        },
+        itemBorder: {
+          borderBottomWidth: 1,
+          borderBottomColor: Colors.lightGray,
+        },
+        itemText: {
+          fontSize: 16,
+          color: Colors.black,
+        },
+        buttonContainer: {
+          marginTop: 40,
+          marginHorizontal: 20,
+          borderRadius: 12,
+          overflow: 'hidden',
+          backgroundColor: Colors.white,
+        },
+      }),
+    [Colors],
+  );
 
   useEffect(() => {
     async function load() {
@@ -35,12 +110,22 @@ export default function SettingsScreen() {
       </View>
 
       <View style={styles.list}>
-        <SettingItem title="Set goal" />
-        <SettingItem title="History" />
-        <SettingItem title="Notifications" />
-        <SettingItem title="Appearance" />
-        <SettingItem title="Language" />
-        <SettingItem title="Privacy & Security" isLast />
+        <SettingItem title="Set goal" styles={styles} Colors={Colors} />
+        <SettingItem title="History" styles={styles} Colors={Colors} />
+        <SettingItem title="Notifications" styles={styles} Colors={Colors} />
+        <SettingItem title="Language" styles={styles} Colors={Colors} />
+        <SettingItem
+          title="Privacy & Security"
+          isLast
+          styles={styles}
+          Colors={Colors}
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button type="secondary" onPress={() => dispatch(toggleTheme())}>
+          {theme === 'light' ? '🌞 Light mode' : '🌚 Dark mode'}
+        </Button>
       </View>
     </ScrollView>
   );
@@ -49,9 +134,11 @@ export default function SettingsScreen() {
 type SettingItemProps = {
   title: string;
   isLast?: boolean;
+  styles: any;
+  Colors: any;
 };
 
-function SettingItem({ title, isLast }: SettingItemProps) {
+function SettingItem({ title, isLast, styles, Colors }: SettingItemProps) {
   return (
     <View style={[styles.item, !isLast && styles.itemBorder]}>
       <Text style={styles.itemText}>{title}</Text>
@@ -59,58 +146,3 @@ function SettingItem({ title, isLast }: SettingItemProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.white,
-  },
-  userSection: {
-    alignItems: 'center',
-    marginTop: '20%',
-    marginBottom: 30,
-    position: 'relative',
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 2,
-  },
-  editIcon: {
-    backgroundColor: Colors.darkest,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    right: '30%',
-    top: '15%',
-  },
-  userHandle: {
-    fontSize: 14,
-    color: Colors.gray,
-    marginTop: 4,
-  },
-  list: {
-    marginHorizontal: 20,
-    borderRadius: 12,
-    overflow: 'hidden',
-    backgroundColor: Colors.white,
-  },
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 10,
-  },
-  itemBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGray,
-  },
-  itemText: {
-    fontSize: 16,
-    color: Colors.black,
-  },
-});
