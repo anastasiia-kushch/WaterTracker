@@ -26,6 +26,8 @@ export async function addLog(amount) {
 
   if (!updatedLogs[today]) {
     updatedLogs[today] = [];
+  } else {
+    updatedLogs[today] = [...updatedLogs[today]];
   }
 
   updatedLogs[today].push(amount);

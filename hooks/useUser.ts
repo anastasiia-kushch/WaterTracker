@@ -16,7 +16,9 @@ export function useUser() {
   const isLoading = user.status === 'loading';
   const isError = user.status === 'failed';
 
-  const addLog = (amount: number) => dispatch(addLogToUser(amount));
+  const addLog = async (amount: number) => {
+    return await dispatch(addLogToUser(amount)).unwrap();
+  };
 
   return {
     user,

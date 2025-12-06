@@ -5,16 +5,35 @@ import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { LayoutAnimation, Platform, UIManager } from 'react-native';
 import AddCustomAmountModal from '../components/AddCustomAmountModal';
 import { useUser } from '../hooks/useUser';
 
 function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const { user, isLoading, addLog } = useUser();
+  const prevDrunk = useRef(user.drunk);
 
-  const handleAdd = (amount: number) => {
-    addLog(amount);
+  // Enable LayoutAnimation on Android
+  useEffect(() => {
+    if (
+      Platform.OS === 'android' &&
+      UIManager.setLayoutAnimationEnabledExperimental
+    ) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user.drunk !== prevDrunk.current) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      prevDrunk.current = user.drunk;
+    }
+  }, [user.drunk]);
+
+  const handleAdd = async (amount: number) => {
+    await addLog(amount);
   };
 
   if (isLoading) {
@@ -32,10 +51,10 @@ function HomeScreen() {
         <ProgressCircle amount={user.drunk} goal={user.goal} />
       </View>
       <View style={styles.buttonsContainer}>
-        <Button type="add" onPress={() => handleAdd(100)}>
+        <Button type="add" onPress={async () => await handleAdd(100)}>
           +100ml
         </Button>
-        <Button type="add" onPress={() => handleAdd(200)}>
+        <Button type="add" onPress={async () => await handleAdd(200)}>
           +200ml
         </Button>
       </View>
@@ -47,7 +66,10 @@ function HomeScreen() {
       <AddCustomAmountModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        onAdd={handleAdd}
+        onAdd={async amount => {
+          await handleAdd(amount);
+          setModalVisible(false);
+        }}
       />
     </View>
   );
