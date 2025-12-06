@@ -4,34 +4,20 @@ import ProgressCircle from '../components/ProgressCircle';
 import Button from '../components/BasicButton';
 import Icon from 'react-native-vector-icons/Feather';
 import Colors from '../styles/colors';
-import { useEffect, useState } from 'react';
-import { addLog, fetchUser } from '../api';
+
+import { useState } from 'react';
 import AddCustomAmountModal from '../components/AddCustomAmountModal';
+import { useUser } from '../hooks/useUser';
 
 function HomeScreen() {
-  const [data, setData] = useState({ drunk: 0, goal: 3000 });
-  const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const { user, isLoading, addLog } = useUser();
 
-  useEffect(() => {
-    async function load() {
-      const userData = await fetchUser();
-      setData(userData);
-      setLoading(false);
-    }
-    load();
-  }, []);
+  const handleAdd = (amount: number) => {
+    addLog(amount);
+  };
 
-  async function handleAdd(amount: number) {
-    try {
-      const updatedUser = await addLog(amount);
-      setData(updatedUser);
-    } catch (e) {
-      console.error('Failed to update:', e);
-    }
-  }
-
-  if (loading) {
+  if (isLoading) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
@@ -43,7 +29,7 @@ function HomeScreen() {
     <View style={styles.container}>
       <Header type="main" />
       <View style={styles.circle}>
-        <ProgressCircle amount={data.drunk} goal={data.goal} />
+        <ProgressCircle amount={user.drunk} goal={user.goal} />
       </View>
       <View style={styles.buttonsContainer}>
         <Button type="add" onPress={() => handleAdd(100)}>
