@@ -30,7 +30,7 @@ function HomeScreen() {
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <View style={styles.loading}>
         <Text>Loading...</Text>
       </View>
     );
@@ -68,6 +68,12 @@ function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.white,
